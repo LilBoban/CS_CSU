@@ -14,10 +14,10 @@ namespace CalcFor5thGrade
                 "Калькулятор для систем счисления от 1 до 50 включительно и перевода чисел в римскую систему.");
             Console.WriteLine("Калькулятор предназначен для работы с положительными целыми числами.");
             Console.WriteLine("Написал Дударов Дмитрий Группа: ПрИ-102");
-            CreateBorder();
-            GetHelp();
+            CreatingBorder();
+            GetMenu();
 
-            Begin:
+        Begin:
             try
             {
                 GetInput();
@@ -38,19 +38,19 @@ namespace CalcFor5thGrade
             Console.ResetColor();
         }
 
-        private static void GetHelp()
+        private static void GetMenu()
         {
             Console.WriteLine("* 1 \u279f перевод числа из любой СС в любую другую СС *");
-            Console.WriteLine("* 2 \u279f перевод числа в римскую СС *");
-            Console.WriteLine("* 3 \u279f перевод из римской СС *");
+            Console.WriteLine("* 2 \u279f перевод числа в римскую СС (до 3 999 999) *");
+            Console.WriteLine("* 3 \u279f перевод из римской СС (до 3 999 999) *");
             Console.WriteLine("* 4 \u279f суммирование в любой СС *");
             Console.WriteLine("* 5 \u279f вычитание в любой СС *");
             Console.WriteLine("* 6 \u279f умножение в любой СС *");
             Console.WriteLine("* 7 \u279f список команд *");
-            CreateBorder();
+            CreatingBorder();
         }
 
-        private static void WannaTryAgain()
+        private static void NewTry()
         {
             Console.WriteLine(
                 "Если вы желаете продолжить использование приложения, пожалуйста, нажмите на любую кнопку.");
@@ -58,7 +58,17 @@ namespace CalcFor5thGrade
                 "Если вы желаете прекратить использовать приложение пожалуйста, нажмите на ESC.");
             if (Console.ReadKey(true).Key == ConsoleKey.Escape)
             {
-                Process.GetCurrentProcess().Kill();
+                ColoringToGreen("Теория по вычислению - https://goo.su/Q3bf");
+                Console.WriteLine("Нажмите ESC еще раз для выхода или любую кнопку для вызова предыдущего меню");
+                if (Console.ReadKey(true).Key == ConsoleKey.Escape)
+                {
+                    Process.GetCurrentProcess().Kill();
+                }
+                else
+                {
+                    NewTry();
+                }
+
             }
             else
             {
@@ -66,13 +76,13 @@ namespace CalcFor5thGrade
                 Console.WriteLine(
                     "Калькулятор для систем счисления от 1 до 50 включительно и перевода чисел в римскую систему.");
                 Console.WriteLine("Написал Дударов Дмитрий Группа: ПрИ-102");
-                CreateBorder();
-                GetHelp();
+                CreatingBorder();
+                GetMenu();
                 Console.WriteLine("Введите цифру, соответствующую пункту меню");
             }
         }
 
-        public static int GetInt(char c)
+        public static int MakingInteger(char c)
         {
             Dictionary<int, char> alphabet = new Dictionary<int, char>();
             for (int i = 0; i < 62; i++)
@@ -113,36 +123,36 @@ namespace CalcFor5thGrade
                     case 1:
                         Console.Clear();
                         FirstOption();
-                        WannaTryAgain();
+                        NewTry();
                         break;
                     case 2:
                         Console.Clear();
-                        SecondFunction();
-                        WannaTryAgain();
+                        SecondOption();
+                        NewTry();
                         break;
                     case 3:
                         Console.Clear();
-                        ThirdFunction();
-                        WannaTryAgain();
+                        ThirdOption();
+                        NewTry();
                         break;
                     case 4:
                         Console.Clear();
-                        FourthFunction();
-                        WannaTryAgain();
+                        FourthOption();
+                        NewTry();
                         break;
                     case 5:
                         Console.Clear();
-                        FifthFunction();
-                        WannaTryAgain();
+                        FifthOption();
+                        NewTry();
                         break;
                     case 6:
                         Console.Clear();
-                        SixthFunction();
-                        WannaTryAgain();
+                        SixthOption();
+                        NewTry();
                         break;
                     case 7:
                         Console.Clear();
-                        GetHelp();
+                        GetMenu();
                         break;
                     default:
                         Console.WriteLine("Упс, что-то пошло не так.");
@@ -151,7 +161,7 @@ namespace CalcFor5thGrade
             }
         }
 
-        private static void CreateBorder()
+        private static void CreatingBorder()
         {
             for (int i = 0; i < Console.WindowWidth; i++)
             {
@@ -161,7 +171,7 @@ namespace CalcFor5thGrade
             }
         }
 
-        private static char ConvertNumberToSymbol(int modul)
+        private static char NumToSym(int modul)
         {
             if (modul >= 0 && modul <= 9) return (char)('0' + modul);
             if (modul >= 10 && modul <= 36) return (char)('A' + (modul - 10));
@@ -170,7 +180,7 @@ namespace CalcFor5thGrade
             throw new ArgumentException("Некорректный остаток от деления!");
         }
 
-        private static int ConvertToDecimal(string number, int numberBase)
+        private static int MakingDecimal(string number, int numberBase)
         {
             if (numberBase > 50)
                 throw new ArgumentException("Основание некорректо! Оно должно быть в пределе от 1 до 50 включительно!");
@@ -194,7 +204,7 @@ namespace CalcFor5thGrade
             if (numberBase == 1)
             {
                 Console.WriteLine(
-                    "Чтобы число из 1-СС перевести в 10-СС нужно просто подсчитать количество 1 в этом числе. Полученное число и есть число в 10-СС");
+                    "Чтобы число из 1-СС перевести в 10-СС нужно просто подсчитать количество едениц в этом числе. Полученное число и есть число в 10-СС");
                 int res = 0;
                 char[] chars = number.ToCharArray();
                 for (int i = 0; i < number.Length; i++)
@@ -235,7 +245,7 @@ namespace CalcFor5thGrade
             return result;
         }
 
-        private static string ConvertFromDecToAny(int number, int numberBase)
+        private static string MakingFromDecToAny(int number, int numberBase)
         {
             if (numberBase > 50)
                 throw new ArgumentException("Основание некорректо! Оно должно быть в пределе от 1 до 50 включительно!");
@@ -245,9 +255,9 @@ namespace CalcFor5thGrade
             do
             {
                 Console.WriteLine(
-                    $"Делим с остатком {number} на {numberBase}. При этом остаток приписываем к числу-результату. ");
+                    $"Делим с остатком {number} на {numberBase}. При этом остаток приписываем к результату. ");
                 int mod = number % numberBase;
-                char symbol = ConvertNumberToSymbol(mod);
+                char symbol = NumToSym(mod);
                 Console.WriteLine($"{builder} + {mod}");
                 builder.Append(symbol);
                 number /= numberBase;
@@ -255,19 +265,23 @@ namespace CalcFor5thGrade
 
             if (number != 0)
             {
-                builder.Append(ConvertNumberToSymbol(number));
+                builder.Append(NumToSym(number));
                 Console.WriteLine(
                     $"Делим с остатком {number} на 10. При этом остаток приписываем к числу-результату. ");
             }
 
-            Console.WriteLine(
-                $"Получаем число {builder.ToString()}. Но это еще не результат. Чтобы получить корректное нужно его записать наоборот: {string.Join("", builder.ToString().Reverse())}");
+            Console.Write($"Получаем число ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(builder.ToString());
+            Console.ResetColor();
+            Console.Write(". Но это еще не результат. Чтобы получить корректное нужно его записать наоборот: ");
+            ColoringToGreen(string.Join("", builder.ToString().Reverse()));
             string result = string.Join("", builder.ToString().Reverse());
 
             return result;
         }
 
-        private static int ConvertFromAnyToDecWithoutComments(string number, int numberBase)
+        private static int MakeFromAnyToDecWithoutWriting(string number, int numberBase)
         {
             if (numberBase > 50)
                 throw new ArgumentException("Основание некорректо! Оно должно быть в пределе от 1 до 50 включительно!");
@@ -311,7 +325,7 @@ namespace CalcFor5thGrade
             return result;
         }
 
-        private static string ConvertFromDecToAnyWithoutComments(int number, int numberBase)
+        private static string MakingFromDecToAnyWOWriting(int number, int numberBase)
         {
             if (numberBase > 50)
                 throw new ArgumentException("Основание некорректо! Оно должно быть в пределе от 1 до 50 включительно!");
@@ -320,7 +334,7 @@ namespace CalcFor5thGrade
             do
             {
                 int mod = number % numberBase;
-                char symbol = ConvertNumberToSymbol(mod);
+                char symbol = NumToSym(mod);
 
                 builder.Append(symbol);
                 number /= numberBase;
@@ -328,7 +342,7 @@ namespace CalcFor5thGrade
 
             if (number != 0)
             {
-                builder.Append(ConvertNumberToSymbol(number));
+                builder.Append(NumToSym(number));
             }
 
             string result = string.Join("", builder.ToString().Reverse());
@@ -339,7 +353,7 @@ namespace CalcFor5thGrade
         private static void FirstOption()
         {
             Console.WriteLine("\u2600 Перевод числа из любой СС в любую другую СС \u2600");
-            CreateBorder();
+            CreatingBorder();
             Console.WriteLine("Введите число:");
             string originNumber = Console.ReadLine();
             Console.WriteLine("Введите систему счисления этого числа");
@@ -347,110 +361,239 @@ namespace CalcFor5thGrade
             Console.WriteLine("Введите систему счисления, в которую необходимо перевести число");
             int toWhatBase = int.Parse(Console.ReadLine());
 
-            int toDec = ConvertToDecimal(originNumber, originNumberBase);
-            Console.WriteLine("Ваше новое число");
-            Console.Write(ConvertFromDecToAny(toDec, toWhatBase));
+            int toDec = MakingDecimal(originNumber, originNumberBase);
+            Console.Write("Ваше новое число");
+            string result = MakingFromDecToAny(toDec, toWhatBase);
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(result);
+            Console.ResetColor();
             Console.Write(" в системе счисления ");
-            Console.WriteLine(toWhatBase);
-            CreateBorder();
+            ColoringToGreen(toWhatBase.ToString());
+            CreatingBorder();
         }
 
-        private static void SecondFunction()
+        private static void SecondOption()
         {
-            int[] arabic = { 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1 };
-            string[] roman = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
-
             Console.WriteLine("* Перевод числа в римскую СС *");
-            CreateBorder();
-            Console.WriteLine("Введите число от 1 до 5000");
-            string input = Console.ReadLine();
-            if (!int.TryParse(input, out int number) || !(number >= 1 && number <= 5000))
-                throw new ArgumentException("Некорректное число! Введите число от 1 до 5000");
-            int i = 0;
-            string output = "";
-            var origin = number;
-            while (number > 0)
+            CreatingBorder();
+            Console.WriteLine("Примечание к дополнительным символам");
+            Console.WriteLine("1000000 - T");
+            Console.WriteLine("900000 - QT");
+            Console.WriteLine("500000 - W");
+            Console.WriteLine("400000 - QW");
+            Console.WriteLine("100000 - Q");
+            Console.WriteLine("90000 - AQ");
+            Console.WriteLine("50000 - B");
+            Console.WriteLine("40000 - AB");
+            Console.WriteLine("10000 - A");
+            Console.WriteLine("9000 - MA");
+            Console.WriteLine("5000 - E");
+            Console.WriteLine("4000 - ME");
+            Console.Write("Введите число до 3 999 999: ");
+            int number = int.Parse(Console.ReadLine());
+
+            string romanNumeral = ConvertToRoman(number);
+            Console.Write($"Римское число: ");
+            ColoringToGreen(romanNumeral);
+
+
+            static string ConvertToRoman(int number)
             {
-                if (arabic[i] <= number)
+                if (number < 1 || number > 3999999)
                 {
-                    Console.WriteLine($"{number} - {arabic[i]} = {number - arabic[i]}");
-                    Console.WriteLine(
-                        $"Число {roman[i]}, соответствующее {arabic[i]} приписывается справа. И так до нуля.");
-                    number = number - arabic[i];
-                    output = output + roman[i];
+                    Console.WriteLine("Ошибка: Недопустимое число для конвертации в римскую систему.");
+                    return string.Empty;
                 }
-                else i++;
-            }
 
-            Console.Write($"Получаем новое число ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(output);
-            Console.ResetColor();
-            Console.Write(" из исходного ");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(origin);
-            Console.ResetColor();
-            CreateBorder();
-        }
-
-        private static void ThirdFunction()
-        {
-            Console.WriteLine("\u273f Перевод из римской СС \u273f");
-
-            Console.WriteLine("Введите число в римской СС");
-            string input = Console.ReadLine();
-            string[] arab = { "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I" };
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                bool isCorrect = false;
-                for (int j = 0; j < arab.Length; j++)
+                Dictionary<int, string> romanNumerals = new Dictionary<int, string>
                 {
-                    if (input[i].ToString() == arab[j])
+                    {1000000, "T"},
+                    {900000, "QT"},
+                    {500000, "W"},
+                    {400000, "QW"},
+                    {100000, "Q"},
+                    {90000, "AQ"},
+                    {50000, "B"},
+                    {40000, "AB"},
+                    {10000, "A"},
+                    {9000, "MA"},
+                    {5000, "E"},
+                    {4000, "ME"},
+                    {1000, "M"},
+                    {900, "CM"},
+                    {500, "D"},
+                    {400, "CD"},
+                    {100, "C"},
+                    {90, "XC"},
+                    {50, "L"},
+                    {40, "XL"},
+                    {10, "X"},
+                    {9, "IX"},
+                    {5, "V"},
+                    {4, "IV"},
+                    {1, "I"}
+                };
+
+
+                Console.WriteLine("Шаги по конвертации:");
+
+                string result = "";
+                foreach (var pair in romanNumerals)
+                {
+                    int value = pair.Key;
+                    while (number >= value)
                     {
-                        isCorrect = true;
-                        break;
+                        Console.Write($"{number} больше или равно чем {value}, вычитаем {value}, приписываем ");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write(pair.Value);
+                        Console.ResetColor();
+                        Console.WriteLine(" справа");
+                        result += " ";
+                        result += pair.Value;
+                        number -= value;
                     }
                 }
 
-                if (!isCorrect) throw new ArgumentException("Некорректное число!");
+                return result;
             }
-
-            Console.Write($"Разбиваем число {input} на отдельные цифры: ");
-            ColoringToGreen(string.Join(" ", input.Split("")));
-
-            int result = 0;
-            var RomToArab = new Dictionary<char, int>
-                { { 'I', 1 }, { 'V', 5 }, { 'X', 10 }, { 'L', 50 }, { 'C', 100 }, { 'D', 500 }, { 'M', 1000 } };
-            for (short i = 0; i < input.Length - 1; ++i)
-            {
-                if (RomToArab[input[i]] < RomToArab[input[i + 1]])
-                {
-                    Console.WriteLine(
-                        $"Число слева {RomToArab[input[i]]} меньше числа справа {RomToArab[input[i + 1]]} , поэтому вычитаем из результирующего числа левое {RomToArab[input[i]]}");
-                    result -= RomToArab[input[i]];
-                }
-                else if (RomToArab[input[i]] >= RomToArab[input[i + 1]])
-                {
-                    Console.WriteLine(
-                        $"Число слева {RomToArab[input[i]]} больше, чем число справа {RomToArab[input[i + 1]]}, то прибавляем к результирующему числу левое {RomToArab[input[i]]}");
-                    result += RomToArab[input[i]];
-                }
-
-                Console.WriteLine($"Получили текущее ");
-                ColoringToGreen(result.ToString());
-            }
-
-            result += RomToArab[input[^1]];
-            Console.Write($"Получили текущее - ");
-            ColoringToGreen(result.ToString());
-            Console.Write($"Итоговое число в римской СС - ");
-            ColoringToGreen(result.ToString());
-
-            CreateBorder();
+            CreatingBorder();
         }
 
-        private static void FourthFunction()
+        private static void ThirdOption()
+        {
+            Console.WriteLine("\u273f Перевод из римской СС \u273f");
+            Console.WriteLine("Нажмите пробел для вывода таблицы символов для чисел больше 1000 или нажмите любую другую кнопку для запуска");
+            if (Console.ReadKey(true).Key == ConsoleKey.Spacebar)
+            {
+                Console.WriteLine("1000000 - T");
+                Console.WriteLine("900000 - QT");
+                Console.WriteLine("500000 - W");
+                Console.WriteLine("400000 - QW");
+                Console.WriteLine("100000 - Q");
+                Console.WriteLine("90000 - AQ");
+                Console.WriteLine("50000 - B");
+                Console.WriteLine("40000 - AB");
+                Console.WriteLine("10000 - A");
+                Console.WriteLine("9000 - MA");
+                Console.WriteLine("5000 - E");
+                Console.WriteLine("4000 - ME");
+                ThirdOption();
+            }
+            else
+            {
+                Console.WriteLine("Введите число в римской СС до 3 999 999 ");
+                string input = Console.ReadLine();
+                if (ToArabWOComments(input) > 3999999)
+                {
+                    throw new ArgumentException("Слишком большое число!");
+                }
+                else if (IsValidRomanNumber(input))
+                {
+                    Console.Write($"Разбиваем число {input} на отдельные цифры: ");
+                    ColoringToGreen(string.Join(" ", input.Split("")));
+
+                    int result = 0;
+                    var RomToArab = new Dictionary<string, int>
+                        {
+                            {"I", 1},
+                            {"IV", 4},
+                            {"V", 5},
+                            {"IX", 9},
+                            {"X", 10},
+                            {"XL", 40},
+                            {"L", 50},
+                            {"XC", 90},
+                            {"C", 100},
+                            {"CD", 400},
+                            {"D", 500},
+                            {"CM", 900},
+                            {"M", 1000},
+                            {"ME", 4000},
+                            {"E", 5000},
+                            {"MA", 9000},
+                            {"A", 10000},
+                            {"B", 50000},
+                            {"Q", 100000},
+                            {"W", 500000},
+                            {"T", 1000000},
+                        };
+
+                    for (short i = 0; i < input.Length; ++i)
+                    {
+                        string currentSymbol = input.Substring(i, 1);
+
+                        if (RomToArab.ContainsKey(currentSymbol))
+                        {
+                            if (i < input.Length - 1)
+                            {
+                                string nextSymbol = input.Substring(i + 1, 1);
+
+                                if (RomToArab[currentSymbol] < RomToArab[nextSymbol])
+                                {
+                                    Console.WriteLine(
+                                        $"Число слева {RomToArab[currentSymbol]} меньше числа справа {RomToArab[nextSymbol]} , поэтому вычитаем из числа левое {RomToArab[currentSymbol]}");
+                                    result -= RomToArab[currentSymbol];
+                                }
+                                else if (RomToArab[currentSymbol] > RomToArab[nextSymbol])
+                                {
+                                    Console.WriteLine(
+                                        $"Число слева {RomToArab[currentSymbol]} больше, чем число справа {RomToArab[nextSymbol]}, то прибавляем к результату левое {RomToArab[currentSymbol]}");
+                                    result += RomToArab[currentSymbol];
+                                }
+                                else
+                                {
+                                    Console.WriteLine(
+                                        $"Число слева {RomToArab[currentSymbol]} равно числу справа {RomToArab[nextSymbol]} поэтому прибавляем к результату левое {RomToArab[currentSymbol]}");
+                                    result += RomToArab[currentSymbol];
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Добавляем к результату {RomToArab[currentSymbol]}");
+                                result += RomToArab[currentSymbol];
+                            }
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Некорректное число!");
+                        }
+
+                        Console.WriteLine($"Получили текущее ");
+                        ColoringToGreen(result.ToString());
+                    }
+
+                    Console.Write($"Итоговое число в римской СС - ");
+                    ColoringToGreen(result.ToString());
+                    if (result > 3999999)
+                    {
+                        throw new ArgumentException("Слишком большое число!");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка: Введено некорректное римское число.");
+                }
+            }
+        }
+
+        private static bool IsValidRomanNumber(string input)
+        {
+            // Допустимые символы римской СС
+            string validRomanCharacters = "IVXLCDMEABQWT";
+
+            foreach (char symbol in input)
+            {
+                if (!validRomanCharacters.Contains(symbol))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        private static void FourthOption()
         {
             Console.WriteLine("\u2744 Суммирование в любой СС \u2744");
             Console.WriteLine("Введите систему счисления: ");
@@ -464,8 +607,8 @@ namespace CalcFor5thGrade
             Console.WriteLine("Введите второе число: ");
             string number2 = Console.ReadLine();
 
-            int n1 = ConvertFromAnyToDecWithoutComments(number1, based);
-            int n2 = ConvertFromAnyToDecWithoutComments(number2, based);
+            int n1 = MakeFromAnyToDecWithoutWriting(number1, based);
+            int n2 = MakeFromAnyToDecWithoutWriting(number2, based);
 
             Console.WriteLine($"Начем сложение числе в {based}-СС");
 
@@ -489,9 +632,9 @@ namespace CalcFor5thGrade
 
 
             foreach (var i in number1)
-                num1.Add(GetInt(i));
+                num1.Add(MakingInteger(i));
             foreach (var j in number2)
-                num2.Add(GetInt(j));
+                num2.Add(MakingInteger(j));
 
             num1.Reverse();
             num2.Reverse();
@@ -546,7 +689,7 @@ namespace CalcFor5thGrade
             ColoringToGreen(sb.ToString());
         }
 
-        private static void FifthFunction()
+        private static void FifthOption()
         {
             Console.WriteLine("\u272a Вычитание в любой СС \u272a");
             Console.WriteLine("Введите систему счисления для операции над числами:");
@@ -559,11 +702,11 @@ namespace CalcFor5thGrade
             if (!int.TryParse(ss, out var based) || !(based >= 1 && based <= 50))
                 throw new ArgumentException("Некорректная система счисления!");
 
-            int numberCorrected = ConvertFromAnyToDecWithoutComments(number, based);
-            int vichitCorrected = ConvertFromAnyToDecWithoutComments(subtrahend, based);
+            int numberCorrected = MakeFromAnyToDecWithoutWriting(number, based);
+            int vichitCorrected = MakeFromAnyToDecWithoutWriting(subtrahend, based);
 
-            bool isNumberNegative = ConvertFromAnyToDecWithoutComments(number, based) <
-                                    ConvertFromAnyToDecWithoutComments(subtrahend, based);
+            bool isNumberNegative = MakeFromAnyToDecWithoutWriting(number, based) <
+                                    MakeFromAnyToDecWithoutWriting(subtrahend, based);
 
             List<int> numberList = new List<int>();
             List<int> subtrahendList = new List<int>();
@@ -582,20 +725,20 @@ namespace CalcFor5thGrade
 
                 foreach (var i in number)
                 {
-                    numberList.Add(GetInt(i));
+                    numberList.Add(MakingInteger(i));
                 }
 
                 foreach (var j in subtrahend)
                 {
-                    subtrahendList.Add(GetInt(j));
+                    subtrahendList.Add(MakingInteger(j));
                 }
             }
             else
             {
                 foreach (var i in number)
-                    numberList.Add(GetInt(i));
+                    numberList.Add(MakingInteger(i));
                 foreach (var j in subtrahend)
-                    subtrahendList.Add(GetInt(j));
+                    subtrahendList.Add(MakingInteger(j));
             }
 
             StringBuilder sb = new StringBuilder();
@@ -630,7 +773,7 @@ namespace CalcFor5thGrade
                             $"Из {numberList[i]} - {subtrahendList[i]} = {numberList[i] - subtrahendList[i]}");
                     }
 
-                    char resSub = ConvertNumberToSymbol(numberList[i] - subtrahendList[i]);
+                    char resSub = NumToSym(numberList[i] - subtrahendList[i]);
 
                     Console.WriteLine(resSub);
                     sb.Append(resSub);
@@ -676,16 +819,16 @@ namespace CalcFor5thGrade
                             $"Из {numberList[i]} - {subtrahendList[i]} = {numberList[i] - subtrahendList[i]}");
                     }
 
-                    char resSub = ConvertNumberToSymbol(numberList[i] - subtrahendList[i]);
+                    char resSub = NumToSym(numberList[i] - subtrahendList[i]);
 
                     Console.WriteLine(resSub);
                     sb.Append(resSub);
 
-                    CreateBorder();
+                    CreatingBorder();
                 }
             }
 
-            CreateBorder();
+            CreatingBorder();
             if (isNumberNegative)
             {
                 Console.WriteLine();
@@ -721,10 +864,10 @@ namespace CalcFor5thGrade
 
             Console.Write($"Ответ: ");
             ColoringToGreen(answer);
-            CreateBorder();
+            CreatingBorder();
         }
 
-        private static void SixthFunction()
+        private static void SixthOption()
         {
             Console.WriteLine("\u2756 Умножение в любой СС \u2756");
             Console.WriteLine("Введите систему счисления:");
@@ -738,15 +881,15 @@ namespace CalcFor5thGrade
             Console.WriteLine("Введите второе число:");
             string number2 = Console.ReadLine();
 
-            int n1 = ConvertFromAnyToDecWithoutComments(number1, based);
-            int n2 = ConvertFromAnyToDecWithoutComments(number2, based);
+            int n1 = MakeFromAnyToDecWithoutWriting(number1, based);
+            int n2 = MakeFromAnyToDecWithoutWriting(number2, based);
 
             List<int> num2 = new List<int>();
 
             List<int> multResultsInDec = new List<int>();
             List<string> multResultsInAny = new List<string>();
             foreach (var i in number2)
-                num2.Add(GetInt(i));
+                num2.Add(MakingInteger(i));
 
             Console.WriteLine("Начинаем умножение");
 
@@ -755,12 +898,12 @@ namespace CalcFor5thGrade
 
             for (int i = 0; i < num2.Count; i++)
             {
-                int currentRazryad = ConvertFromAnyToDecWithoutComments(number1, based) * num2[i];
-                string displayedRazryad = ConvertFromDecToAnyWithoutComments(currentRazryad, based);
+                int current = MakeFromAnyToDecWithoutWriting(number1, based) * num2[i];
+                string displayed = MakingFromDecToAnyWOWriting(current, based);
                 Console.WriteLine(
-                    $"{number1} * {ConvertNumberToSymbol(num2[i])} = {displayedRazryad}, где умножаем первое число на число под [{i + 1}] разрядом.");
-                multResultsInDec.Add(currentRazryad);
-                multResultsInAny.Add(displayedRazryad);
+                    $"{number1} * {NumToSym(num2[i])} = {displayed}, где умножаем первое число на число под [{i + 1}] разрядом.");
+                multResultsInDec.Add(current);
+                multResultsInAny.Add(displayed);
             }
 
             List<string> finalResults = new List<string>();
@@ -785,8 +928,83 @@ namespace CalcFor5thGrade
 
             Console.WriteLine(" " + "".PadLeft(finalResults[0].Length, '-'));
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(" " + ConvertFromDecToAnyWithoutComments(n1 * n2, based));
+            Console.WriteLine(" " + MakingFromDecToAnyWOWriting(n1 * n2, based));
             Console.ResetColor();
         }
+        private static int ToArabWOComments(string line)
+        {
+
+            int result = 0;
+            string input = line;
+
+            if (IsValidRomanNumber(input))
+            {
+
+                var RomToArab = new Dictionary<string, int>
+                {
+                    {"I", 1},
+                    {"IV", 4},
+                    {"V", 5},
+                    {"IX", 9},
+                    {"X", 10},
+                    {"XL", 40},
+                    {"L", 50},
+                    {"XC", 90},
+                    {"C", 100},
+                    {"CD", 400},
+                    {"D", 500},
+                    {"CM", 900},
+                    {"M", 1000},
+                    {"ME", 4000},
+                    {"E", 5000},
+                    {"MA", 9000},
+                    {"A", 10000},
+                    {"B", 50000},
+                    {"Q", 100000},
+                    {"W", 500000},
+                    {"T", 1000000},
+                };
+
+                for (short i = 0; i < input.Length; ++i)
+                {
+                    string currentSymbol = input.Substring(i, 1);
+
+                    if (RomToArab.ContainsKey(currentSymbol))
+                    {
+                        if (i < input.Length - 1)
+                        {
+                            string nextSymbol = input.Substring(i + 1, 1);
+
+                            if (RomToArab[currentSymbol] < RomToArab[nextSymbol])
+                            {
+                                result -= RomToArab[currentSymbol];
+                            }
+                            else if (RomToArab[currentSymbol] > RomToArab[nextSymbol])
+                            {
+                                result += RomToArab[currentSymbol];
+                            }
+                            else
+                            {
+                                result += RomToArab[currentSymbol];
+                            }
+                        }
+                        else
+                        {
+                            result += RomToArab[currentSymbol];
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException("Некорректное число!");
+                    }
+
+
+                }
+
+
+            }
+            return result;
+        }
     }
+
 }
